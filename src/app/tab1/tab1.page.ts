@@ -27,13 +27,12 @@ export class Tab1Page implements OnInit {
   }
 
   cargarMas(){
-
+    this.getPopulares();
   }
 
   getPopulares(){
     this.movieService.getPopulares().subscribe(
       resp=>{
-        console.log('Populares',resp);
         const arrTemp = [ ...this.populares, ...resp.results]
         this.populares = arrTemp;
       }
