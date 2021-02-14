@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { PipesModule } from '../pipes/pipes.module';
+import { ComponetsModule } from '../components/componets.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { PipesModule } from '../pipes/pipes.module';
     CommonModule,
     FormsModule,
     PipesModule,
+    ComponetsModule,
     ExploreContainerComponentModule,
     Tab1PageRoutingModule
   ],

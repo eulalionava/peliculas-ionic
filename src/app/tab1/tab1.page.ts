@@ -8,12 +8,9 @@ import { Pelicula,RespuestaMDB } from '../interfaces/interfaces';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
+  
   peliculasRecientes:Pelicula[] = [];
-
-  slideOpts = {
-    slidesPerView:1.1,
-    freeMode:true
-  }
+  populares:Pelicula[] = [];
 
   constructor(
     private movieService:MoviesService
@@ -22,7 +19,13 @@ export class Tab1Page implements OnInit {
   ngOnInit(){
     this.movieService.getFuture().subscribe( resp=>{
         this.peliculasRecientes = resp.results;
-        console.log(this.peliculasRecientes);
+      }
+    );
+
+    this.movieService.getPopulares().subscribe(
+      resp=>{
+        console.log('Populares',resp);
+        this.populares = resp.results;
       }
     );
   }
