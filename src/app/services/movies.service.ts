@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RespuestaMDB } from '../interfaces/interfaces';
+import { RespuestaMDB, PeliculaDetalle, Pelicula,RespuestaCredits, Genre } from '../interfaces/interfaces';
 import { environment } from 'src/environments/environment';
 
 const URL     = environment.url;
@@ -11,6 +11,7 @@ const apiKey  = environment.apiKey;
 })
 export class MoviesService {
   private popularesPage = 0;
+  generos:Genre[] = [];
 
   constructor(
     private _http:HttpClient
@@ -51,5 +52,31 @@ export class MoviesService {
     const fin     = `${hoy.getFullYear()}-${mesString}-${ultimoDia}`;
 
     return this.ejecutarQuery<RespuestaMDB>(`/discover/movie?primary_release_date.gte=${inicio}&primary_release_date.lte=${fin}`);
+  }
+
+  getPeliculaDetalle(id:String){
+    return this.ejecutarQuery<PeliculaDetalle>(`/movie/${id}?a=1`);
+  }
+
+  getActoresPelicula(id:String){
+    return this.ejecutarQuery<RespuestaCredits>(`/movie/${id}/credits?a=1`);
+  }
+
+  buscarPeliculas(texto:String){
+      return this.ejecutarQuery(`/search/movie?query=${texto}`);
+  }
+
+  cargaGeneros():Promise<Genre[]>{
+
+    return new Promise(resolve=>{
+
+      this.ejecutarQuery(`/genre/movie/list?a=1`).subscribe(
+        resp=>{
+          this.generos = resp['genres'];
+          resolve(this.generos);
+        }
+      );
+
+    })
   }
 }
